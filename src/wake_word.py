@@ -7,10 +7,11 @@ import os
 load_dotenv()
 
 ACCESS_KEY = os.getenv("PORCUPINE_KEY")
+WAKE_WORD = os.getenv("WAKE_WORD")
 
 porcupine = pvporcupine.create(
     access_key=ACCESS_KEY,
-    keywords=["jarvis"]
+    keywords=[WAKE_WORD]
 )
 
 pa = pyaudio.PyAudio()

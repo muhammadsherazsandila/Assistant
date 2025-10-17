@@ -1,23 +1,44 @@
-import speech_recognition as sr
-from src.tts import speak
-from src.commands import execute_command
+# src/main.py
 from src.wake_word import listen_for_wake_word
+from src.stt import listen_for_command
+from src.tts import speak
+from src.commands import system_commands, browser_commands
 
-recognizer = sr.Recognizer()
+def handle_command(cmd):
+    cmd = cmd.lower()
 
-def listen_for_command():
-    with sr.Microphone() as source:
-        speak("Yes, I am listening.")
-        audio = recognizer.listen(source)
-    try:
-        return recognizer.recognize_google(audio).lower()
-    except:
-        speak("I didn't catch that.")
-        return ""
+    if "time" in cmd:
+        system_commands.tell_time()
+    elif "date" in cmd:
+        system_commands.tell_date()
+    elif "open google" in cmd:
+        browser_commands.open_google()
+    elif cmd.startswith("search"):
+        query = cmd.replace("search", "").strip()
+        browser_commands.search_google(query)
+    elif "shutdown" in cmd:
+        system_commands.shutdown()
+        exit()
+    else:
+        speak("Sorry, I don't know how to do that yet.")
 
 if __name__ == "__main__":
-    speak("Jarvis assistant activated.")
-    while True:
-        if listen_for_wake_word() >= 0:
+    while True:  # always-on
+        print("👂 Waiting for wake word...")
+        listen_for_wake_word()  # blocks until wake word detected
+        speak("Jarvis Activated")
+
+        while True:  # active command loop
             command = listen_for_command()
-            execute_command(command)
+            if command is None:
+                continue  # keep listening
+
+            cmd_lower = command.lower()
+            if cmd_lower in ["sleep", "exit"]:
+                speak("Going to sleep. Call me again when needed.")
+                break  # back to wake-word loop
+            elif "shutdown" in cmd_lower:
+                system_commands.shutdown()
+                exit()
+            else:
+                handle_command(command)
