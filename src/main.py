@@ -20,7 +20,7 @@ def handle_command(cmd):
         system_commands.shutdown()
         exit()
     else:
-        speak("Sorry, I don't know how to do that yet.")
+        print("Sorry, I don't know how to do that yet.")
 
 if __name__ == "__main__":
     while True:  # always-on
