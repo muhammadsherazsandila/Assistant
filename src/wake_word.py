@@ -24,7 +24,12 @@ audio_stream = pa.open(
 )
 
 def listen_for_wake_word():
-    pcm = audio_stream.read(porcupine.frame_length, exception_on_overflow=False)
-    pcm_unpacked = struct.unpack_from("h" * porcupine.frame_length, pcm)
-    keyword_index = porcupine.process(pcm_unpacked)
-    return keyword_index
+    print("Listening for wake word...")
+    while True:
+        pcm = audio_stream.read(porcupine.frame_length, exception_on_overflow=False)
+        pcm_unpacked = struct.unpack_from("h" * porcupine.frame_length, pcm)
+        keyword_index = porcupine.process(pcm_unpacked)
+        if keyword_index >= 0:
+            print("Wake word detected!")
+            return
+

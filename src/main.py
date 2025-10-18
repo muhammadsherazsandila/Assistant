@@ -19,6 +19,9 @@ def handle_command(cmd):
     elif "shutdown" in cmd:
         system_commands.shutdown()
         exit()
+    elif "find" in cmd:
+        filename = cmd.replace("find", "").strip()
+        system_commands.find_files(filename)
     else:
         print("Sorry, I don't know how to do that yet.")
 
@@ -34,7 +37,7 @@ if __name__ == "__main__":
                 continue  # keep listening
 
             cmd_lower = command.lower()
-            if cmd_lower in ["sleep", "exit"]:
+            if "go to sleep" in cmd_lower:
                 speak("Going to sleep. Call me again when needed.")
                 break  # back to wake-word loop
             elif "shutdown" in cmd_lower:
