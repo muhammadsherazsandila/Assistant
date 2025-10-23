@@ -4,23 +4,25 @@ from src.stt import listen_for_command
 from src.tts import speak
 from src.commands import system_commands, browser_commands
 
+from src.commands import matching_commands
+
 def handle_command(cmd):
     cmd = cmd.lower()
 
-    if "time" in cmd:
+    if cmd in matching_commands.time_related_commands:
         system_commands.tell_time()
-    elif "date" in cmd:
+    elif cmd in matching_commands.date_related_commands:
         system_commands.tell_date()
-    elif "open google" in cmd:
+    elif cmd in matching_commands.open_google_commands:
         browser_commands.open_google()
     elif cmd.startswith("search"):
         query = cmd.replace("search", "").strip()
         browser_commands.search_google(query)
-    elif "shutdown" in cmd:
+    elif cmd in matching_commands.shutdown_commands:
         system_commands.shutdown()
         exit()
-    elif "find" in cmd:
-        filename = cmd.replace("find", "").strip()
+    elif cmd.startswith(matching_commands.find_commands_prefix):
+        filename = cmd.replace(matching_commands.find_commands_prefix, "").strip()
         system_commands.find_files(filename)
     else:
         print("Sorry, I don't know how to do that yet.")
@@ -43,5 +45,7 @@ if __name__ == "__main__":
             elif "shutdown" in cmd_lower:
                 system_commands.shutdown()
                 exit()
+            elif "jarvis" in cmd_lower:
+                speak("Yes Anonymous I am here.")
             else:
                 handle_command(command)
