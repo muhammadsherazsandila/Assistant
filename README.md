@@ -103,10 +103,3 @@ Please follow the repository's code style and commit message conventions (if any
 - Portfolio: https://sherazportfolio.vercel.app
 - Agency: https://sandiladigix.com
 
-If you'd like, I created a comprehensive README.md content above tailored for a generic Python assistant project and included quick-start, development, testing, and contributing guidance. Next, I can:
-
-- adapt the content to the actual module/entrypoint names in this repository (if you tell me the main package or script),
-- create and open a pull request that adds this README to the repository,
-- or generate additional docs (CONTRIBUTING.md, CODE_OF_CONDUCT.md, or examples) if you want.
-
-Tell me which next step you'd like and I will take care of it.
